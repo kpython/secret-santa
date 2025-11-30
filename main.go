@@ -84,8 +84,14 @@ func main() {
 	http.HandleFunc("/draw/create", createDrawHandler)
 	http.HandleFunc("/draw/", drawHandler)
 
-	fmt.Println("Server started at http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	// Get port from environment variable or default to 8080
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	fmt.Printf("Server started at http://localhost:%s\n", port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
 func loadData() {
