@@ -22,4 +22,4 @@ primary_region = "ams"
 
 [[mounts]]
   source = "data_volume"
-  destination = "/app"
+  destination = "/app/data"
