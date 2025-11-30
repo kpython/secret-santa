@@ -24,26 +24,6 @@ So, I decided to build a simple tool for our family: no accounts, no ads, no non
    Open http://localhost:8080
 
 
-## Deploy to Render
-
-### One-Click Deploy
-
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
-
-### Manual Deploy
-
-1. Fork this repository
-2. Create a new Web Service on [Render](https://render.com)
-3. Connect your GitHub repository
-4. Render will automatically detect the `render.yaml` and configure:
-   - Docker build from `Dockerfile`
-   - Persistent disk for data storage (1GB)
-   - Environment variables
-
-The app will be available at `https://your-app-name.onrender.com`
-
-**Note:** The free tier on Render will spin down after 15 minutes of inactivity. The first request after inactivity may take 30-60 seconds.
-
 
 ## Run with Docker
 
@@ -65,15 +45,6 @@ Access the app at http://localhost:8080
 docker-compose up
 ```
 
-
-## Features
-
-- 🔒 **Privacy-focused** - No accounts, no tracking, no data collection
-- 🎲 **Cryptographically secure** - Uses 32-character tokens (2^128 entropy)
-- 🌍 **Multi-language** - Supports English, French, German, and Portuguese
-- 📱 **Mobile responsive** - Works on all devices
-- ⚡ **Lightweight** - Simple Go application with minimal dependencies
-- 🗑️ **Auto-cleanup** - Draws older than 30 days are automatically deleted
 
 
 ## Contributing
