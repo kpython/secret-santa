@@ -2,6 +2,8 @@
 
 A simple, privacy-focused Secret Santa organizer
 
+Check it out live at: [https://secret-santa-draw.app/](https://secret-santa-draw.app/)
+
 ## The story
 
 This little app was born out of a real family struggle. Every year, my sister tries to organize a Secret Santa for our family, but last time she faced a nightmare: a bunch of apps that required installing software, creating accounts, in-app purchases, or even tracking your activities.
@@ -54,4 +56,4 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for gui
 
 ## License
 
-See LICENSE.md
+See [LICENSE.md](LICENSE.md)
