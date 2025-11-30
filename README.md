@@ -54,4 +54,4 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for gui
 
 ## License
 
-See [LICENSE.md](LICENSE.md)
+See LICENSE.md
