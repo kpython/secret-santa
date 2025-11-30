@@ -8,14 +8,7 @@
 </head>
 <body>
 <div class="container">
-  <div class="lang-selector">
-    <select onchange="window.location.href='?lang='+this.value">
-      <option value="en" {{if eq .CurrentLang "en"}}selected{{end}}>🇬🇧 EN</option>
-      <option value="fr" {{if eq .CurrentLang "fr"}}selected{{end}}>🇫🇷 FR</option>
-      <option value="de" {{if eq .CurrentLang "de"}}selected{{end}}>🇩🇪 DE</option>
-      <option value="pt" {{if eq .CurrentLang "pt"}}selected{{end}}>🇧🇷 PT</option>
-    </select>
-  </div>
+  {{template "lang_selector" .}}
 
   <div class="card">
     <h1>🎁 Hello {{.Name}}</h1>
