@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{index .T "manage_draw"}}</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+  <div class="lang-selector">
+    <select onchange="window.location.href='?lang='+this.value">
+      <option value="en" {{if eq .CurrentLang "en"}}selected{{end}}>🇬🇧 EN</option>
+      <option value="fr" {{if eq .CurrentLang "fr"}}selected{{end}}>🇫🇷 FR</option>
+      <option value="de" {{if eq .CurrentLang "de"}}selected{{end}}>🇩🇪 DE</option>
+      <option value="pt" {{if eq .CurrentLang "pt"}}selected{{end}}>🇵🇹 PT</option>
+    </select>
+  </div>
+
+  <div class="card">
+    <h1>{{.EventName}}</h1>
+    <h2>{{index .T "manage_draw"}}</h2>
+
+{{if and .OrganizerLink .DrawDone}}
+<div class="share-section">
+  <p><strong>{{index .T "draw_completed"}}</strong></p>
+  <a href="{{.OrganizerLink}}" class="draw-button">{{index .T "see_my_draw"}}</a>
+</div>
+{{end}}
+
+{{if not .DrawDone}}
+<div class="share-section">
+  <p><strong>{{index .T "share_link"}}:</strong></p>
+  <div class="share-link-box">
+    <input type="text" id="joinLink" value="{{.JoinLink}}" readonly>
+    <button onclick="copyLink()">{{index .T "copy_link"}}</button>
+  </div>
+</div>
+{{end}}
+
+<p>{{index .T "participants"}}:</p>
+<ul>
+{{range $token, $p := .Participants}}
+  <li>{{$p.Name}}</li>
+{{end}}
+</ul>
+{{if not .DrawDone}}
+{{if .CanDraw}}
+<p>{{index .T "all_participants_ready"}}</p>
+{{else}}
+<p>{{index .T "waiting_draw"}}</p>
+{{end}}
+<form method="POST" action="/draw/{{.EventID}}/draw{{if .OrganizerToken}}?organizer={{.OrganizerToken}}{{end}}">
+  <button type="submit" {{if not .CanDraw}}disabled{{end}}>{{index .T "start_draw"}}</button>
+</form>
+{{end}}
+
+<script>
+function copyLink() {
+  const input = document.getElementById('joinLink');
+  input.select();
+  document.execCommand('copy');
+  alert('Link copied to clipboard!');
+}
+</script>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Participant</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+  <div class="lang-selector">
+    <select onchange="window.location.href='?lang='+this.value">
+      <option value="en" {{if eq .CurrentLang "en"}}selected{{end}}>🇬🇧 EN</option>
+      <option value="fr" {{if eq .CurrentLang "fr"}}selected{{end}}>🇫🇷 FR</option>
+      <option value="de" {{if eq .CurrentLang "de"}}selected{{end}}>🇩🇪 DE</option>
+      <option value="pt" {{if eq .CurrentLang "pt"}}selected{{end}}>🇵🇹 PT</option>
+    </select>
+  </div>
+
+  <div class="card">
+    <h1>🎁 Hello {{.Name}}</h1>
+    {{if .Ready}}
+    <p><strong>{{index .T "participant_ready"}}:</strong> {{.GiftFor}}</p>
+    <p><strong>{{index .T "wish_title"}}:</strong> {{.Wish}}</p>
+    {{else}}
+    <p>{{index .T "participant_wait"}}</p>
+    {{end}}
+  </div>
+</div>
+</body>
+</html>
