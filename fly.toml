@@ -1,0 +1,28 @@
+app = "secret-santa"
+primary_region = "ams"
+
+[build]
+  image = "secret-santa:latest"
+
+[env]
+  PORT = "8080"
+
+[[services]]
+  internal_port = 8080
+  protocol = "tcp"
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+
+  [[services.tcp_checks]]
+    interval = "15s"
+    timeout = "2s"
+
+[[mounts]]
+  source = "data_volume"
+  destination = "/app"
