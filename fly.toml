@@ -1,9 +1,6 @@
 app = "secret-santa"
 primary_region = "ams"
 
-[build]
-  image = "secret-santa:latest"
-
 [env]
   PORT = "8080"
 
