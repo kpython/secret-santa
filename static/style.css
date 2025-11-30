@@ -38,6 +38,8 @@ body {
   border-color: #4CAF50;
 }
 
+/* removed about-icon and about-tooltip styles */
+
 .card {
   background-color: #ffffff;
   padding: 30px;
