@@ -1,4 +1,4 @@
-# 🎁 Secret Santa Web App
+# Secret Santa Web App
 
 A simple, privacy-focused Secret Santa organizer
 
