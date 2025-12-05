@@ -1,6 +1,6 @@
 # Contributing to Secret Santa WebApp
 
-Thank you for your interest in improving this project! 🎉
+Thank you for your interest in improving this project!
 
 We welcome contributions of any kind, including:
 
@@ -17,4 +17,4 @@ We welcome contributions of any kind, including:
 4. Test your changes locally.
 5. Submit a pull request with a clear description of your changes.
 
-Please keep contributions friendly and constructive. Every improvement helps make Secret Santa simpler and more fun for everyone! 🎁
+Please keep contributions friendly and constructive. Every improvement helps make Secret Santa simpler and more fun for everyone!
