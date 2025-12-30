@@ -1,4 +1,4 @@
-name: Fly Deploy
+name: Deploy to Fly.io
 on:
   push:
     branches:
@@ -14,3 +14,11 @@ jobs:
       - run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - uses: chrnorm/deployment-action@v2
+        if: success()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          environment: production
+          environment-url: https://secret-santa-m7bt-w.fly.dev
+          deployment-branch: main
+          auto-merge: false
