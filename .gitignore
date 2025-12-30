@@ -1,6 +1,9 @@
 # Data files
 data.json
 
+# Fly.io config
+.flyrc
+
 # Go build artifacts
 *.exe
 *.exe~
