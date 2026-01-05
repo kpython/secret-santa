@@ -104,8 +104,12 @@ button:hover {
 footer.github-footer {
   text-align: center;
   margin-top: 45px;
-  font-size: 0.95em;
+  font-size: 0.85em;
   color: #555;
+}
+
+footer.github-footer p {
+  margin: 8px 0;
 }
 
 footer.github-footer a {

@@ -30,5 +30,6 @@
   "organizer_wish": "Souhaitez-vous transmettre des souhaits ou un message à votre Secret Santa? (optionnel)",
   "see_my_draw": "🎁 Voir mon tirage",
   "open_source": "Open Source",
-  "view_on_github": "Voir sur GitHub"
+  "view_on_github": "Voir sur GitHub",
+  "send_feedback": "💬 Donner un feedback / Signaler un bug"
 }
