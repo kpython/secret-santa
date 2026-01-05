@@ -4,12 +4,18 @@ body {
   color: #333;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
 }
 
 .container {
   max-width: 700px;
   margin: 30px auto;
   padding: 0 15px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .lang-selector {
@@ -103,9 +109,14 @@ button:hover {
 
 footer.github-footer {
   text-align: center;
-  margin-top: 45px;
+  margin-top: auto;
+  padding: 30px 15px;
   font-size: 0.85em;
   color: #555;
+  background-color: transparent;
+  border-top: none;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 footer.github-footer p {
@@ -179,6 +190,34 @@ ul li {
   margin: 8px 0;
   border-radius: 8px;
   border-left: 3px solid #4CAF50;
+}
+
+.status-card {
+  background-color: #f0f7ff;
+  padding: 20px;
+  border-radius: 10px;
+  border-left: 4px solid #2196F3;
+  margin: 20px 0;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.button-group button,
+.button-group form {
+  flex: 1;
+}
+
+.button-group button {
+  margin: 0;
+}
+
+.button-group form button {
+  width: 100%;
+  margin: 0;
 }
 
 @media (max-width: 768px) {

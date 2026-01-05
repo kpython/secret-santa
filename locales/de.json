@@ -17,10 +17,12 @@
   "submit_button": "Absenden",
   "participant_ready": "Dein Geschenk geht an",
   "participant_wait": "Danke für deine Teilnahme! Die Ziehung wurde noch nicht durchgeführt. Bitte komme später wieder und lade die Seite neu, um zu sehen, ob die Ziehung stattgefunden hat.",
+  "participant_wait_button": "🔄 Aktualisieren um das Ergebnis der Ziehung zu sehen",
   "manage_draw": "Ziehung verwalten",
   "participants": "Teilnehmer",
   "start_draw": "🎉 Auslosung starten",
-  "waiting_draw": "Warten auf Teilnehmer... (Lade die Seite neu, um neue Teilnehmer zu sehen.)",
+  "waiting_draw": "Warten auf Teilnehmer...",
+  "waiting_draw_button": "🔄 Aktualisieren um neue Teilnehmer zu sehen",
   "all_participants_ready": "🎉 Alle haben sich angemeldet! Sie können jetzt die Auslosung starten.",
   "draw_completed": "🎉 Auslosung abgeschlossen!",
   "draw_completed_message": "Die Teilnehmer können jetzt sehen, wem sie ein Geschenk machen sollen.",
@@ -31,5 +33,6 @@
   "see_my_draw": "🎁 Meine Auslosung sehen",
   "open_source": "Open Source",
   "view_on_github": "Auf GitHub ansehen",
-  "send_feedback": "💬 Feedback geben / Bug melden"
+  "send_feedback": "💬 Feedback geben / Bug melden",
+  "refresh": "Aktualisieren"
 }

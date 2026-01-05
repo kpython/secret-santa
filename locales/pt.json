@@ -17,10 +17,12 @@
   "submit_button": "Enviar",
   "participant_ready": "Seu presente é para",
   "participant_wait": "Obrigado por participar! O sorteio ainda não foi realizado. Por favor, volte mais tarde e tente recarregar a página para ver se o sorteio já aconteceu.",
+  "participant_wait_button": "🔄 Atualizar para ver o resultado do sorteio",
   "manage_draw": "Gerenciar Sorteio",
   "participants": "Participantes",
   "start_draw": "🎉 Iniciar Sorteio",
-  "waiting_draw": "Aguardando participantes... (Recarregue a página para ver novos participantes.)",
+  "waiting_draw": "Aguardando participantes...",
+  "waiting_draw_button": "🔄 Atualizar para ver novos participantes",
   "all_participants_ready": "🎉 Todos participaram! Você pode iniciar o sorteio agora.",
   "draw_completed": "🎉 Sorteio Concluído!",
   "draw_completed_message": "Os participantes agora podem ver para quem devem dar o presente.",
@@ -31,6 +33,7 @@
   "see_my_draw": "🎁 Ver Meu Sorteio",
   "open_source": "Código Aberto",
   "view_on_github": "Ver no GitHub",
-  "send_feedback": "💬 Enviar feedback / Relatar um bug"
+  "send_feedback": "💬 Enviar feedback / Relatar um bug",
+  "refresh": "Atualizar"
 }
 

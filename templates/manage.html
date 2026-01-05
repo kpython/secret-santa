@@ -26,7 +26,7 @@
   <p><strong>{{index .T "share_link"}}:</strong></p>
   <div class="share-link-box">
     <input type="text" id="joinLink" value="{{.JoinLink}}" readonly>
-    <button onclick="copyLink()">{{index .T "copy_link"}}</button>
+    <button id="copyBtn" onclick="copyLink()" style="min-width: 150px; white-space: nowrap; height: 48px; line-height: 1;">{{index .T "copy_link"}}</button>
   </div>
 </div>
 {{end}}
@@ -37,26 +37,89 @@
   <li>{{$p.Name}}</li>
 {{end}}
 </ul>
+
 {{if not .DrawDone}}
-{{if .CanDraw}}
-<p>{{index .T "all_participants_ready"}}</p>
-{{else}}
-<p>{{index .T "waiting_draw"}}</p>
-{{end}}
-<form method="POST" action="/draw/{{.EventID}}/draw{{if .OrganizerToken}}?organizer={{.OrganizerToken}}{{end}}">
-  <button type="submit" {{if not .CanDraw}}disabled{{end}}>{{index .T "start_draw"}}</button>
-</form>
+<div class="status-card">
+  {{if .CanDraw}}
+  <p style="font-size: 1.1em; color: #4CAF50; font-weight: 600;">✅ {{index .T "all_participants_ready"}}</p>
+  <form method="POST" action="/draw/{{.EventID}}/draw{{if .OrganizerToken}}?organizer={{.OrganizerToken}}{{end}}" style="margin-top: 15px;">
+    <button type="submit" style="width: 100%;">{{index .T "start_draw"}}</button>
+  </form>
+  {{else}}
+  <p style="font-size: 1.1em; color: #ff9800; font-weight: 600;">⏳ {{index .T "waiting_draw"}}</p>
+  <button onclick="refreshPage(event)" style="margin-top: 15px; width: 100%;">{{index .T "waiting_draw_button"}}</button>
+  {{end}}
+</div>
 {{end}}
 
 <script>
 function copyLink() {
   const input = document.getElementById('joinLink');
+  const button = event.target;
+  
   input.select();
   document.execCommand('copy');
-  alert('Link copied to clipboard!');
+  
+  // Haptic feedback (vibration)
+  if (navigator.vibrate) {
+    navigator.vibrate(50);
+  }
+  
+  // Store original text and color
+  const originalText = button.textContent;
+  const originalColor = button.style.backgroundColor;
+  
+  // Button animation
+  button.style.transform = 'scale(0.95)';
+  button.style.backgroundColor = '#45a049';
+  button.textContent = 'Copied! ✅';
+  
+  setTimeout(() => {
+    button.style.transform = 'scale(1)';
+    button.style.backgroundColor = originalColor;
+  }, 200);
+  
+  // Restore original text after 2 seconds
+  setTimeout(() => {
+    button.textContent = originalText;
+  }, 2000);
+}
+
+function refreshPage(event) {
+  const button = event.target;
+  
+  // Haptic feedback (vibration)
+  if (navigator.vibrate) {
+    navigator.vibrate(50);
+  }
+  
+  // Button animation
+  button.style.transform = 'scale(0.95)';
+  const originalColor = button.style.backgroundColor;
+  button.style.backgroundColor = '#45a049';
+  
+  setTimeout(() => {
+    button.style.transform = 'scale(1)';
+    button.style.backgroundColor = originalColor;
+  }, 200);
+  
+  // Reload after animation
+  setTimeout(() => {
+    location.reload();
+  }, 300);
 }
 </script>
-  </div>
+
 </div>
+
+<footer class="github-footer">
+  <p><a href="https://github.com/kpython/secret-santa" target="_blank" rel="noopener noreferrer">
+    <svg height="20" viewBox="0 0 16 16" width="20" style="vertical-align: middle;">
+      <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+    </svg>
+    {{index .T "view_on_github"}}
+  </a></p>
+  <p><a href="https://github.com/kpython/secret-santa/issues/new" target="_blank" rel="noopener noreferrer">{{index .T "send_feedback"}}</a></p>
+</footer>
 </body>
 </html>
