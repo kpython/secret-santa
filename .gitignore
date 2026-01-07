@@ -35,3 +35,6 @@ vendor/
 
 # Logs
 *.log
+
+# Local build artifact
+secret-santa
