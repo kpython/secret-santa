@@ -80,6 +80,15 @@ func main() {
 	loadData()
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+
+	// Serve robots.txt and sitemap.xml at the site root to aid crawlers
+	http.HandleFunc("/robots.txt", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "static/robots.txt")
+	})
+	http.HandleFunc("/sitemap.xml", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "static/sitemap.xml")
+	})
+
 	http.HandleFunc("/", homeHandler)
 	http.HandleFunc("/draw/create", createDrawHandler)
 	http.HandleFunc("/draw/", drawHandler)
