@@ -91,7 +91,36 @@ func main() {
 	}
 
 	fmt.Printf("Server started at http://localhost:%s\n", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+
+	mux := http.DefaultServeMux
+
+	// forceHTTPS redirects HTTP -> HTTPS for non-local requests using a 301.
+	// We intentionally allow localhost/127.0.0.1 to remain on HTTP for local dev.
+	forceHTTPS := func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if !isHTTPS(r) && !strings.HasPrefix(r.Host, "localhost") && !strings.HasPrefix(r.Host, "127.0.0.1") {
+				url := "https://" + r.Host + r.URL.RequestURI()
+				http.Redirect(w, r, url, http.StatusMovedPermanently)
+				return
+			}
+			next.ServeHTTP(w, r)
+		})
+	}
+
+	handler := forceHTTPS(mux)
+
+	log.Fatal(http.ListenAndServe(":"+port, handler))
+}
+
+func isHTTPS(r *http.Request) bool {
+	if r.TLS != nil {
+		return true
+	}
+	proto := r.Header.Get("X-Forwarded-Proto")
+	if strings.EqualFold(proto, "https") {
+		return true
+	}
+	return false
 }
 
 func loadData() {
@@ -263,10 +292,12 @@ func createDrawHandler(w http.ResponseWriter, r *http.Request) {
 	t := loadTranslations(lang)
 
 	if r.Method == http.MethodGet {
+		canonical := fmt.Sprintf("https://%s%s", r.Host, r.URL.Path)
 		templates.ExecuteTemplate(w, "create_event.html", struct {
 			T           Translations
 			CurrentLang string
-		}{t, lang})
+			Canonical   string
+		}{t, lang, canonical})
 		return
 	}
 	r.ParseForm()
@@ -380,12 +411,14 @@ func drawHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		if !draw.DrawDone {
+			canonical := fmt.Sprintf("https://%s%s", r.Host, r.URL.Path)
 			templates.ExecuteTemplate(w, "participant.html", struct {
 				Name        string
 				Ready       bool
 				T           Translations
 				CurrentLang string
-			}{p.Name, false, t, lang})
+				Canonical   string
+			}{p.Name, false, t, lang, canonical})
 		} else {
 			// Find the wish of the person they're giving a gift to
 			recipientWish := ""
@@ -395,6 +428,7 @@ func drawHandler(w http.ResponseWriter, r *http.Request) {
 					break
 				}
 			}
+			canonical := fmt.Sprintf("https://%s%s", r.Host, r.URL.Path)
 			templates.ExecuteTemplate(w, "participant.html", struct {
 				Name        string
 				Ready       bool
@@ -402,7 +436,8 @@ func drawHandler(w http.ResponseWriter, r *http.Request) {
 				Wish        string
 				T           Translations
 				CurrentLang string
-			}{p.Name, true, p.GiftFor, recipientWish, t, lang})
+				Canonical   string
+			}{p.Name, true, p.GiftFor, recipientWish, t, lang, canonical})
 		}
 		return
 	}
@@ -410,11 +445,13 @@ func drawHandler(w http.ResponseWriter, r *http.Request) {
 	switch action {
 	case "join":
 		if r.Method == http.MethodGet {
+			canonical := fmt.Sprintf("https://%s%s", r.Host, r.URL.Path)
 			templates.ExecuteTemplate(w, "join.html", struct {
 				EventID     string
 				T           Translations
 				CurrentLang string
-			}{id, t, lang})
+				Canonical   string
+			}{id, t, lang, canonical})
 			return
 		}
 		r.ParseForm()
@@ -473,14 +510,17 @@ func drawHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		dataMutex.RUnlock()
 
-		joinLink := fmt.Sprintf("http://%s/draw/%s/join", r.Host, id)
+		// Build canonical links using HTTPS
+		scheme := "https"
+		joinLink := fmt.Sprintf(scheme+"://%s/draw/%s/join", r.Host, id)
 		organizerToken := r.URL.Query().Get("organizer")
 		organizerLink := ""
 		// Only show organizer link after draw is done
 		if organizerToken != "" && draw.DrawDone {
-			organizerLink = fmt.Sprintf("http://%s/draw/%s/participant/%s", r.Host, id, organizerToken)
+			organizerLink = fmt.Sprintf(scheme+"://%s/draw/%s/participant/%s", r.Host, id, organizerToken)
 		}
 		canDraw := allSubmitted && !draw.DrawDone && expectedReached
+		canonical := fmt.Sprintf("https://%s%s", r.Host, r.URL.Path)
 		templates.ExecuteTemplate(w, "manage.html", struct {
 			EventID        string
 			EventName      string
@@ -492,7 +532,8 @@ func drawHandler(w http.ResponseWriter, r *http.Request) {
 			DrawDone       bool
 			T              Translations
 			CurrentLang    string
-		}{id, draw.Name, joinLink, organizerLink, organizerToken, draw.Participants, canDraw, draw.DrawDone, t, lang})
+			Canonical      string
+		}{id, draw.Name, joinLink, organizerLink, organizerToken, draw.Participants, canDraw, draw.DrawDone, t, lang, canonical})
 
 	case "draw":
 		if r.Method != http.MethodPost {
