@@ -38,3 +38,4 @@ vendor/
 
 # Local build artifact
 secret-santa
+*.bak
