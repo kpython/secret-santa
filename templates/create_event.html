@@ -33,7 +33,7 @@
   <!-- Form Card -->
   <div class="card form-card">
     <h2>{{index .T "title_create_draw"}}</h2>
-    <form method="POST" class="event-form">
+    <form method="POST" action="/draw/create" class="event-form">
       <label>{{index .T "draw_name"}}:
         <input type="text" name="eventname" placeholder="Christmas Secret Santa 2025" required>
       </label>

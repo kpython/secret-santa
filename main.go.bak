@@ -106,23 +106,7 @@ func main() {
 	// forceHTTPS redirects HTTP -> HTTPS for non-local requests using a 301.
 	// We intentionally allow localhost/127.0.0.1 to remain on HTTP for local dev.
 	forceHTTPS := func(next http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if !isHTTPS(r) && !strings.HasPrefix(r.Host, "localhost") && !strings.HasPrefix(r.Host, "127.0.0.1") {
-				// Redirect to the canonical page directly to avoid an intermediate root redirect.
-				destination := "https://" + r.Host + r.URL.RequestURI()
-				if r.URL.Path == "/" {
-					destination = "https://" + r.Host + "/draw/create"
-				}
-				http.Redirect(w, r, destination, http.StatusMovedPermanently)
-				return
-			}
-			// Add HSTS header for secure responses to enforce HTTPS
-			if isHTTPS(r) && !strings.HasPrefix(r.Host, "localhost") && !strings.HasPrefix(r.Host, "127.0.0.1") {
-				w.Header().Set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
-			}
-			next.ServeHTTP(w, r)
-		})
-	}
+	} 
 
 	handler := forceHTTPS(mux)
 
@@ -300,21 +284,29 @@ func loadTranslations(lang string) Translations {
 	return t
 }
 
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	lang := getLanguage(r)
-	t := loadTranslations(lang)
-	canonical := fmt.Sprintf("https://%s/", r.Host)
-	templates.ExecuteTemplate(w, "create_event.html", struct {
-		T           Translations
-		CurrentLang string
-		Canonical   string
-	}{t, lang, canonical})
-}
+
+\t\t\t\turl := "https://" + r.Host + r.URL.RequestURI()
+\t\t\t\thttp.Redirect(w, r, url, http.StatusMovedPermanently)
+\t\t\t\treturn
+\t\t\t}
+\t\t\t// Add HSTS header for secure responses to enforce HTTPS
+\t\t\tif isHTTPS(r) && !strings.HasPrefix(r.Host, "localhost") && !strings.HasPrefix(r.Host, "127.0.0.1") {
+\t\t\t\tw.Header().Set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
+\t\t\t}
+\t\t\tnext.ServeHTTP(w, r)
+\t\t})
 
 func createDrawHandler(w http.ResponseWriter, r *http.Request) {
+	lang := getLanguage(r)
+	t := loadTranslations(lang)
+
 	if r.Method == http.MethodGet {
-		// Redirect to root - content is served at /
-		http.Redirect(w, r, "/", http.StatusMovedPermanently)
+		canonical := fmt.Sprintf("https://%s%s", r.Host, r.URL.Path)
+		templates.ExecuteTemplate(w, "create_event.html", struct {
+			T           Translations
+			CurrentLang string
+			Canonical   string
+		}{t, lang, canonical})
 		return
 	}
 	r.ParseForm()
