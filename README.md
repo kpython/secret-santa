@@ -36,7 +36,7 @@ So, I decided to build a simple tool for our family: no accounts, no ads, no non
 docker build -t secret-santa .
 
 # Run the container
-docker run -p 8080:8080 -v $(pwd)/data:/app secret-santa
+docker run -p 8080:8080 -v $(pwd)/data:/app/data secret-santa
 ```
 
 Access the app at http://localhost:8080
