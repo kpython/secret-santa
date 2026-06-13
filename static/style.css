@@ -1,7 +1,9 @@
+/* ── Base ──────────────────────────────────────────────── */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f0f4f8;
-  color: #333;
+  font-family: 'Lato', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: radial-gradient(ellipse at 50% 0%, #1f5c2e 0%, #0d2416 55%, #060f0a 100%);
+  background-attachment: fixed;
+  color: #f5f0e8;
   margin: 0;
   padding: 0;
   display: flex;
@@ -10,113 +12,311 @@ body {
   width: 100%;
 }
 
+/* ── Stars background ──────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 15% 25%, rgba(255,255,255,0.7)  1px, transparent 1px),
+    radial-gradient(circle at 35% 12%, rgba(255,255,255,0.45) 1px, transparent 1px),
+    radial-gradient(circle at 55% 35%, rgba(255,255,255,0.6)  1px, transparent 1px),
+    radial-gradient(circle at 75% 18%, rgba(255,255,255,0.4)  1px, transparent 1px),
+    radial-gradient(circle at 90% 42%, rgba(255,255,255,0.65) 1px, transparent 1px),
+    radial-gradient(circle at  8% 60%, rgba(255,255,255,0.5)  1px, transparent 1px),
+    radial-gradient(circle at 28% 72%, rgba(255,255,255,0.35) 1px, transparent 1px),
+    radial-gradient(circle at 48% 55%, rgba(255,255,255,0.6)  1px, transparent 1px),
+    radial-gradient(circle at 68% 80%, rgba(255,255,255,0.45) 1px, transparent 1px),
+    radial-gradient(circle at 85% 65%, rgba(255,255,255,0.55) 1px, transparent 1px),
+    radial-gradient(circle at 20% 90%, rgba(255,255,255,0.4)  1px, transparent 1px),
+    radial-gradient(circle at 42% 88%, rgba(255,255,255,0.5)  1px, transparent 1px),
+    radial-gradient(circle at 62% 95%, rgba(255,255,255,0.35) 1px, transparent 1px),
+    radial-gradient(circle at 78% 92%, rgba(255,255,255,0.45) 1px, transparent 1px),
+    radial-gradient(circle at  5% 45%, rgba(255,255,255,0.55) 1px, transparent 1px),
+    radial-gradient(circle at 95% 28%, rgba(255,255,255,0.4)  1px, transparent 1px),
+    radial-gradient(circle at 50%  5%, rgba(255,255,255,0.65) 1px, transparent 1px),
+    radial-gradient(circle at 30% 50%, rgba(255,255,255,0.3)  1px, transparent 1px),
+    radial-gradient(circle at 70% 50%, rgba(255,255,255,0.5)  1px, transparent 1px),
+    radial-gradient(circle at 88% 10%, rgba(255,255,255,0.6)  1px, transparent 1px);
+  pointer-events: none;
+  z-index: 0;
+  animation: twinkle-a 5s ease-in-out infinite alternate;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 22% 18%, rgba(255,255,255,0.5)  1px, transparent 1px),
+    radial-gradient(circle at 45% 40%, rgba(255,255,255,0.35) 1px, transparent 1px),
+    radial-gradient(circle at 65% 25%, rgba(255,255,255,0.55) 1px, transparent 1px),
+    radial-gradient(circle at 82% 55%, rgba(255,255,255,0.4)  1px, transparent 1px),
+    radial-gradient(circle at 12% 75%, rgba(255,255,255,0.6)  1px, transparent 1px),
+    radial-gradient(circle at 38% 62%, rgba(255,255,255,0.45) 1px, transparent 1px),
+    radial-gradient(circle at 58% 78%, rgba(255,255,255,0.5)  1px, transparent 1px),
+    radial-gradient(circle at 75% 38%, rgba(255,255,255,0.35) 1px, transparent 1px),
+    radial-gradient(circle at 92% 82%, rgba(255,255,255,0.55) 1px, transparent 1px),
+    radial-gradient(circle at  3% 20%, rgba(255,255,255,0.4)  1px, transparent 1px);
+  pointer-events: none;
+  z-index: 0;
+  animation: twinkle-b 7s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle-a {
+  from { opacity: 0.5; }
+  to   { opacity: 1;   }
+}
+@keyframes twinkle-b {
+  from { opacity: 1;   }
+  to   { opacity: 0.4; }
+}
+
+/* ── Layout ────────────────────────────────────────────── */
 .container {
   max-width: 700px;
   margin: 30px auto;
   padding: 0 15px;
   width: 100%;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
+/* ── Hero (page d'accueil) ─────────────────────────────── */
+.hero {
+  text-align: center;
+  padding: 10px 0 28px;
+}
+
+.hero-santa {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 20px;
+  filter: drop-shadow(0 8px 24px rgba(196, 30, 58, 0.4));
+}
+
+.hero-santa img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px);   }
+  50%       { transform: translateY(-12px); }
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.5em;
+  color: #FFD700;
+  margin: 0 0 12px;
+  text-shadow: 0 2px 20px rgba(255,215,0,0.45), 0 0 50px rgba(255,215,0,0.2);
+  line-height: 1.2;
+}
+
+.hero p {
+  color: rgba(245, 240, 232, 0.75);
+  font-size: 1.05em;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── Lang Selector ─────────────────────────────────────── */
 .lang-selector {
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
   margin-bottom: 25px;
 }
 
-.lang-selector select {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: white;
-  color: #555;
-  font-weight: 500;
-  font-size: 14px;
+.lang-dropdown {
+  position: relative;
+}
+
+.lang-current {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
+  color: #f5f0e8;
+  padding: 6px 12px;
+  font-size: 0.88em;
+  font-weight: 600;
   cursor: pointer;
-  transition: border-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  box-shadow: none;
+  transition: background 0.2s;
+  letter-spacing: 0.02em;
 }
 
-.lang-selector select:hover {
-  border-color: #4CAF50;
+.lang-current:hover {
+  background: rgba(255, 255, 255, 0.18);
+  transform: none;
+  filter: none;
+  box-shadow: none;
 }
 
-.lang-selector select:focus {
-  outline: none;
-  border-color: #4CAF50;
+.lang-chevron {
+  font-size: 0.75em;
+  opacity: 0.6;
 }
 
-/* removed about-icon and about-tooltip styles */
+.lang-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  background: #122b1a;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  overflow: hidden;
+  z-index: 100;
+  min-width: 110px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
 
+.lang-menu.open {
+  display: block;
+}
+
+.lang-option {
+  display: block;
+  padding: 9px 16px;
+  color: rgba(245, 240, 232, 0.75);
+  text-decoration: none;
+  font-size: 0.88em;
+  font-weight: 500;
+  transition: background 0.15s;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+.lang-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f5f0e8;
+}
+
+.lang-option.active {
+  color: #FFD700;
+  font-weight: 700;
+}
+
+/* ── Cards ─────────────────────────────────────────────── */
 .card {
-  background-color: #ffffff;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
-  margin-bottom: 30px;
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.38);
+  margin-bottom: 24px;
+  color: #2c1810;
+  animation: fadeSlideIn 0.55s ease both;
 }
 
-.card h1, .card h2 {
+.container > .card:nth-child(3) { animation-delay: 0.1s; }
+.container > .card:nth-child(4) { animation-delay: 0.2s; }
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.card h1 {
+  font-family: 'Playfair Display', Georgia, serif;
   margin-top: 0;
-  color: #2c3e50;
+  color: #1a0a04;
+  font-size: 1.8em;
+}
+
+.card h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  margin-top: 0;
+  color: #1a0a04;
 }
 
 .card p {
-  line-height: 1.6;
-  color: #555;
+  line-height: 1.7;
+  color: #3d2b1f;
 }
 
 .steps-card ol {
   padding-left: 20px;
+  color: #3d2b1f;
+  line-height: 1.8;
 }
 
+/* ── Form ──────────────────────────────────────────────── */
 .event-form label {
   display: block;
   margin-bottom: 18px;
-  font-weight: 500;
+  font-weight: 600;
+  color: #2c1810;
 }
 
 .event-form input {
   width: 100%;
-  padding: 10px 12px;
-  margin-top: 5px;
+  padding: 11px 14px;
+  margin-top: 6px;
   border-radius: 10px;
-  border: 1px solid #ccc;
+  border: 1.5px solid #ddd;
   box-sizing: border-box;
-  transition: border-color 0.2s;
-  font-size: 16px; /* avoid iOS auto-zoom on focus */
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
+  background: #fafafa;
+  color: #2c1810;
 }
 
 .event-form input:focus {
-  border-color: #4CAF50;
+  border-color: #c41e3a;
+  box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.15);
   outline: none;
 }
 
+.event-form > button {
+  display: block;
+  margin: 20px auto 0;
+}
+
+/* ── Buttons ───────────────────────────────────────────── */
 button {
-  background-color: #4CAF50;
+  background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
   color: white;
   border: none;
-  padding: 14px 25px;
+  padding: 14px 28px;
   border-radius: 12px;
   cursor: pointer;
   font-size: 1.05em;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
   margin-top: 15px;
-  transition: background-color 0.3s, transform 0.2s;
+  letter-spacing: 0.02em;
+  transition: filter 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 16px rgba(139, 0, 0, 0.45);
 }
 
 button:hover {
-  background-color: #45a049;
+  filter: brightness(1.12);
   transform: scale(1.03);
+  box-shadow: 0 7px 22px rgba(139, 0, 0, 0.55);
 }
 
+/* ── Footer ────────────────────────────────────────────── */
 footer.github-footer {
   text-align: center;
   margin-top: auto;
   padding: 30px 15px;
   font-size: 0.85em;
-  color: #555;
+  color: rgba(245, 240, 232, 0.4);
   background-color: transparent;
   border-top: none;
   width: 100%;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
 footer.github-footer p {
@@ -124,22 +324,99 @@ footer.github-footer p {
 }
 
 footer.github-footer a {
-  color: #555;
+  color: rgba(245, 240, 232, 0.4);
   text-decoration: none;
   transition: color 0.2s;
 }
 
 footer.github-footer a:hover {
-  color: #2c3e50;
+  color: #FFD700;
 }
 
-/* Manage page specific styles */
+/* ── Manage page header ────────────────────────────────── */
+.manage-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.manage-header h1 {
+  margin: 0;
+}
+
+
+/* ── Section label ─────────────────────────────────────── */
+.section-label {
+  font-size: 0.78em;
+  font-weight: 700;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 24px 0 12px;
+}
+
+/* ── Participants grid ─────────────────────────────────── */
+.participants-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.participant-tag {
+  background: #f2f2f2;
+  color: #444;
+  padding: 5px 13px;
+  border-radius: 20px;
+  font-size: 0.88em;
+  font-weight: 500;
+}
+
+/* ── Status messages ───────────────────────────────────── */
+.status-ready-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-check {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.status-ready {
+  font-size: 0.95em;
+  color: #1a0a04;
+  font-weight: 600;
+  margin: 0;
+}
+
+
+.status-waiting {
+  font-size: 0.9em;
+  color: #aaa;
+  font-weight: 500;
+  margin: 0 0 4px;
+}
+
+/* ── Draw result (manage page) ─────────────────────────── */
+.draw-result {
+  margin: 0;
+}
+
+/* ── Share section (manage page) ───────────────────────── */
 .share-section {
-  background-color: #e8f5e9;
-  padding: 20px;
-  border-radius: 10px;
-  margin: 20px 0;
-  border-left: 4px solid #4CAF50;
+  padding: 20px 0;
+  border-top: 1px solid #ede8e2;
+  margin: 4px 0;
+}
+
+.share-section p {
+  color: #3d2b1f;
+  margin: 0 0 10px;
 }
 
 .share-link-box {
@@ -150,11 +427,13 @@ footer.github-footer a:hover {
 
 .share-link-box input {
   flex: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
   border-radius: 8px;
   font-family: monospace;
   font-size: 14px;
+  background: #fafafa;
+  color: #2c1810;
 }
 
 .share-link-box button {
@@ -165,41 +444,54 @@ footer.github-footer a:hover {
 
 .draw-button {
   display: inline-block;
-  background-color: #4CAF50;
+  background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
   color: white;
-  padding: 12px 24px;
+  padding: 12px 26px;
   text-decoration: none;
-  border-radius: 10px;
-  font-weight: 600;
-  transition: background-color 0.3s, transform 0.2s;
+  border-radius: 12px;
+  font-weight: 700;
+  font-family: 'Lato', sans-serif;
+  letter-spacing: 0.02em;
+  transition: filter 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 16px rgba(139, 0, 0, 0.45);
 }
 
 .draw-button:hover {
-  background-color: #45a049;
+  filter: brightness(1.12);
   transform: scale(1.03);
+  box-shadow: 0 7px 22px rgba(139, 0, 0, 0.55);
 }
 
+/* ── Participants list ─────────────────────────────────── */
 ul {
   list-style: none;
   padding: 0;
 }
 
 ul li {
-  background-color: #f5f5f5;
-  padding: 12px 15px;
-  margin: 8px 0;
-  border-radius: 8px;
-  border-left: 3px solid #4CAF50;
+  padding: 9px 0;
+  border-bottom: 1px solid #ede8e2;
+  color: #2c1810;
+  font-weight: 500;
 }
 
+ul li:last-child {
+  border-bottom: none;
+}
+
+/* ── Status card ───────────────────────────────────────── */
 .status-card {
-  background-color: #f0f7ff;
-  padding: 20px;
-  border-radius: 10px;
-  border-left: 4px solid #2196F3;
-  margin: 20px 0;
+  padding: 20px 0 0;
+  border-top: 1px solid #ede8e2;
+  margin: 8px 0 0;
 }
 
+.status-card p {
+  color: #2c1810;
+  margin: 0 0 4px;
+}
+
+/* ── Button group ──────────────────────────────────────── */
 .button-group {
   display: flex;
   gap: 10px;
@@ -220,11 +512,52 @@ ul li {
   margin: 0;
 }
 
+/* ── Snowflakes ────────────────────────────────────────── */
+.snowflakes {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.snowflake {
+  position: absolute;
+  top: -30px;
+  color: rgba(255, 255, 255, 0.82);
+  user-select: none;
+  animation: snow-fall linear infinite;
+}
+
+@keyframes snow-fall {
+  0%   { transform: translateY(0)      rotate(0deg)   translateX(0);    opacity: 0.9; }
+  50%  { transform: translateY(55vh)   rotate(360deg) translateX(18px);              }
+  100% { transform: translateY(110vh)  rotate(720deg) translateX(-10px); opacity: 0.2; }
+}
+
+.snowflake:nth-child(1)  { left:  3%; font-size: 1.3em; animation-duration:  9s; animation-delay:  0.0s; }
+.snowflake:nth-child(2)  { left:  9%; font-size: 0.7em; animation-duration: 12s; animation-delay:  1.2s; }
+.snowflake:nth-child(3)  { left: 16%; font-size: 1.1em; animation-duration:  7s; animation-delay:  2.5s; }
+.snowflake:nth-child(4)  { left: 24%; font-size: 0.8em; animation-duration: 14s; animation-delay:  0.6s; }
+.snowflake:nth-child(5)  { left: 33%; font-size: 1.4em; animation-duration: 10s; animation-delay:  3.0s; }
+.snowflake:nth-child(6)  { left: 41%; font-size: 0.9em; animation-duration:  8s; animation-delay:  1.8s; }
+.snowflake:nth-child(7)  { left: 50%; font-size: 1.0em; animation-duration: 13s; animation-delay:  0.3s; }
+.snowflake:nth-child(8)  { left: 59%; font-size: 0.7em; animation-duration: 11s; animation-delay:  2.1s; }
+.snowflake:nth-child(9)  { left: 67%; font-size: 1.2em; animation-duration:  9s; animation-delay:  1.0s; }
+.snowflake:nth-child(10) { left: 75%; font-size: 0.8em; animation-duration: 15s; animation-delay:  3.7s; }
+.snowflake:nth-child(11) { left: 84%; font-size: 1.4em; animation-duration:  8s; animation-delay:  0.9s; }
+.snowflake:nth-child(12) { left: 92%; font-size: 1.0em; animation-duration: 12s; animation-delay:  2.3s; }
+
+/* ── Responsive ────────────────────────────────────────── */
 @media (max-width: 768px) {
+  .hero h1 { font-size: 1.9em; }
+
   .share-link-box {
     flex-direction: column;
   }
-  
   .share-link-box button {
     width: 100%;
   }

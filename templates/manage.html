@@ -1,116 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{.CurrentLang}}">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{index .T "manage_draw"}}</title>
 {{if .Canonical}}<link rel="canonical" href="{{.Canonical}}">{{end}}
+<link rel="icon" href="/static/santa-hat.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">❄</div>
+  <div class="snowflake">❅</div>
+  <div class="snowflake">❆</div>
+  <div class="snowflake">❄</div>
+  <div class="snowflake">❅</div>
+  <div class="snowflake">❆</div>
+  <div class="snowflake">❄</div>
+  <div class="snowflake">❅</div>
+  <div class="snowflake">❆</div>
+  <div class="snowflake">❄</div>
+  <div class="snowflake">❅</div>
+  <div class="snowflake">❆</div>
+</div>
 <div class="container">
   {{template "lang_selector" .}}
 
   <div class="card">
-    <h1>{{.EventName}}</h1>
-    <h2>{{index .T "manage_draw"}}</h2>
 
-{{if and .OrganizerLink .DrawDone}}
-<div class="share-section">
-  <p><strong>{{index .T "draw_completed"}}</strong></p>
-  <a href="{{.OrganizerLink}}" class="draw-button">{{index .T "see_my_draw"}}</a>
-</div>
-{{end}}
+    <!-- Header -->
+    {{if not (and .DrawDone .OrganizerGiftFor)}}
+    <div class="manage-header">
+      <h1>{{.EventName}}</h1>
+    </div>
+    {{end}}
 
-{{if not .DrawDone}}
-<div class="share-section">
-  <p><strong>{{index .T "share_link"}}:</strong></p>
-  <div class="share-link-box">
-    <input type="text" id="joinLink" value="{{.JoinLink}}" readonly>
-    <button id="copyBtn" onclick="copyLink()" style="min-width: 150px; white-space: nowrap; height: 48px; line-height: 1;">{{index .T "copy_link"}}</button>
+    <!-- Draw completed -->
+    {{if and .DrawDone .OrganizerGiftFor}}
+    <div class="draw-result">
+      <h1>Hello, {{.OrganizerName}}</h1>
+      <div class="section-label">{{index .T "participant_ready"}}</div>
+      <p style="font-size: 1.15em; font-weight: 600; color: #1a0a04; margin: 0 0 16px;">{{.OrganizerGiftFor}}</p>
+      {{if .OrganizerRecipientWish}}
+      <div class="section-label">{{index .T "wish_title"}}</div>
+      <p style="color: #555; margin: 0;">{{.OrganizerRecipientWish}}</p>
+      {{end}}
+    </div>
+    {{end}}
+
+    <!-- Share link -->
+    {{if not .DrawDone}}
+    <div class="share-section">
+      <p><strong>{{index .T "share_link"}}:</strong></p>
+      <div class="share-link-box">
+        <input type="text" id="joinLink" value="{{.JoinLink}}" readonly>
+        <button id="copyBtn" onclick="copyLink()" style="min-width: 130px; white-space: nowrap; height: 46px; line-height: 1; margin: 0;">{{index .T "copy_link"}}</button>
+      </div>
+    </div>
+    {{end}}
+
+    <!-- Participants -->
+    <div class="section-label">{{index .T "participants"}}</div>
+    <div class="participants-grid">
+      {{range $token, $p := .Participants}}
+      <span class="participant-tag">{{$p.Name}}</span>
+      {{end}}
+    </div>
+
+    <!-- Status -->
+    {{if not .DrawDone}}
+    <div class="status-card">
+      {{if .CanDraw}}
+      <div class="status-ready-row">
+        <svg class="status-check" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="11" r="10" fill="#2d6a4f"/>
+          <path d="M6.5 11.5l3 3 6-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <p class="status-ready">{{index .T "all_participants_ready"}}</p>
+        </div>
+      </div>
+      <form method="POST" action="/draw/{{.EventID}}/draw{{if .OrganizerToken}}?organizer={{.OrganizerToken}}{{end}}" style="margin-top: 16px;">
+        <button type="submit" style="width: 100%;">{{index .T "start_draw"}}</button>
+      </form>
+      {{else}}
+      <p class="status-waiting">{{index .T "waiting_draw"}}</p>
+      <button onclick="refreshPage(event)" style="margin-top: 15px; width: 100%;">{{index .T "waiting_draw_button"}}</button>
+      {{end}}
+    </div>
+    {{end}}
+
   </div>
-</div>
-{{end}}
-
-<p>{{index .T "participants"}}:</p>
-<ul>
-{{range $token, $p := .Participants}}
-  <li>{{$p.Name}}</li>
-{{end}}
-</ul>
-
-{{if not .DrawDone}}
-<div class="status-card">
-  {{if .CanDraw}}
-  <p style="font-size: 1.1em; color: #4CAF50; font-weight: 600;">✅ {{index .T "all_participants_ready"}}</p>
-  <form method="POST" action="/draw/{{.EventID}}/draw{{if .OrganizerToken}}?organizer={{.OrganizerToken}}{{end}}" style="margin-top: 15px;">
-    <button type="submit" style="width: 100%;">{{index .T "start_draw"}}</button>
-  </form>
-  {{else}}
-  <p style="font-size: 1.1em; color: #ff9800; font-weight: 600;">⏳ {{index .T "waiting_draw"}}</p>
-  <button onclick="refreshPage(event)" style="margin-top: 15px; width: 100%;">{{index .T "waiting_draw_button"}}</button>
-  {{end}}
-</div>
-{{end}}
-
-<script>
-function copyLink() {
-  const input = document.getElementById('joinLink');
-  const button = event.target;
-  
-  input.select();
-  document.execCommand('copy');
-  
-  // Haptic feedback (vibration)
-  if (navigator.vibrate) {
-    navigator.vibrate(50);
-  }
-  
-  // Store original text and color
-  const originalText = button.textContent;
-  const originalColor = button.style.backgroundColor;
-  
-  // Button animation
-  button.style.transform = 'scale(0.95)';
-  button.style.backgroundColor = '#45a049';
-  button.textContent = 'Copied! ✅';
-  
-  setTimeout(() => {
-    button.style.transform = 'scale(1)';
-    button.style.backgroundColor = originalColor;
-  }, 200);
-  
-  // Restore original text after 2 seconds
-  setTimeout(() => {
-    button.textContent = originalText;
-  }, 2000);
-}
-
-function refreshPage(event) {
-  const button = event.target;
-  
-  // Haptic feedback (vibration)
-  if (navigator.vibrate) {
-    navigator.vibrate(50);
-  }
-  
-  // Button animation
-  button.style.transform = 'scale(0.95)';
-  const originalColor = button.style.backgroundColor;
-  button.style.backgroundColor = '#45a049';
-  
-  setTimeout(() => {
-    button.style.transform = 'scale(1)';
-    button.style.backgroundColor = originalColor;
-  }, 200);
-  
-  // Reload after animation
-  setTimeout(() => {
-    location.reload();
-  }, 300);
-}
-</script>
-
 </div>
 
 <footer class="github-footer">
@@ -122,5 +105,40 @@ function refreshPage(event) {
   </a></p>
   <p><a href="https://github.com/kpython/secret-santa/issues/new" target="_blank" rel="noopener noreferrer">{{index .T "send_feedback"}}</a></p>
 </footer>
+
+<script>
+function copyLink() {
+  const input = document.getElementById('joinLink');
+  const button = document.getElementById('copyBtn');
+  const originalText = button.textContent;
+
+  const confirm = () => {
+    if (navigator.vibrate) navigator.vibrate(50);
+    button.style.transform = 'scale(0.95)';
+    button.textContent = 'Copied! ✅';
+    setTimeout(() => { button.style.transform = 'scale(1)'; }, 200);
+    setTimeout(() => { button.textContent = originalText; }, 2000);
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(input.value).then(confirm);
+  } else {
+    input.select();
+    document.execCommand('copy');
+    confirm();
+  }
+}
+
+function refreshPage(event) {
+  const button = event.target;
+
+  if (navigator.vibrate) navigator.vibrate(50);
+
+  button.style.transform = 'scale(0.95)';
+  setTimeout(() => { button.style.transform = 'scale(1)'; }, 200);
+  setTimeout(() => { location.reload(); }, 300);
+}
+</script>
+
 </body>
 </html>

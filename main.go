@@ -247,7 +247,7 @@ func getLanguage(r *http.Request) string {
 		langs := parseAcceptLanguage(acceptLang)
 		for _, l := range langs {
 			// Check if we support this language
-			if l == "en" || l == "fr" || l == "de" || l == "pt" {
+			if l == "en" || l == "fr" || l == "de" || l == "pt" || l == "it" {
 				return l
 			}
 		}
@@ -556,30 +556,47 @@ func drawHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		dataMutex.RUnlock()
 
-		// Build canonical links using HTTPS
 		scheme := "https"
+		if isLocalHost(r.Host) {
+			scheme = "http"
+		}
 		joinLink := fmt.Sprintf(scheme+"://%s/draw/%s/join", r.Host, id)
 		organizerToken := r.URL.Query().Get("organizer")
 		organizerLink := ""
-		// Only show organizer link after draw is done
+		organizerGiftFor := ""
+		organizerRecipientWish := ""
+		organizerName := ""
 		if organizerToken != "" && draw.DrawDone {
 			organizerLink = fmt.Sprintf(scheme+"://%s/draw/%s/participant/%s", r.Host, id, organizerToken)
+			if org, ok := draw.Participants[organizerToken]; ok {
+				organizerName = org.Name
+				organizerGiftFor = org.GiftFor
+				for _, p := range draw.Participants {
+					if p.Name == org.GiftFor {
+						organizerRecipientWish = p.Wish
+						break
+					}
+				}
+			}
 		}
 		canDraw := allSubmitted && !draw.DrawDone && expectedReached
 		canonical := fmt.Sprintf("https://%s%s", r.Host, r.URL.Path)
 		templates.ExecuteTemplate(w, "manage.html", struct {
-			EventID        string
-			EventName      string
-			JoinLink       string
-			OrganizerLink  string
-			OrganizerToken string
-			Participants   map[string]*Participant
-			CanDraw        bool
-			DrawDone       bool
-			T              Translations
-			CurrentLang    string
-			Canonical      string
-		}{id, draw.Name, joinLink, organizerLink, organizerToken, draw.Participants, canDraw, draw.DrawDone, t, lang, canonical})
+			EventID                string
+			EventName              string
+			JoinLink               string
+			OrganizerLink          string
+			OrganizerToken         string
+			OrganizerName          string
+			OrganizerGiftFor       string
+			OrganizerRecipientWish string
+			Participants           map[string]*Participant
+			CanDraw                bool
+			DrawDone               bool
+			T                      Translations
+			CurrentLang            string
+			Canonical              string
+		}{id, draw.Name, joinLink, organizerLink, organizerToken, organizerName, organizerGiftFor, organizerRecipientWish, draw.Participants, canDraw, draw.DrawDone, t, lang, canonical})
 
 	case "draw":
 		if r.Method != http.MethodPost {

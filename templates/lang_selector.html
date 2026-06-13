@@ -1,10 +1,36 @@
 {{define "lang_selector"}}
 <div class="lang-selector">
-  <select onchange="window.location.href='?lang='+this.value">
-    <option value="en" {{if eq .CurrentLang "en"}}selected{{end}}>🇬🇧 EN</option>
-    <option value="fr" {{if eq .CurrentLang "fr"}}selected{{end}}>🇫🇷 FR</option>
-    <option value="de" {{if eq .CurrentLang "de"}}selected{{end}}>🇩🇪 DE</option>
-    <option value="pt" {{if eq .CurrentLang "pt"}}selected{{end}}>🇧🇷 PT</option>
-  </select>
+  <div class="lang-dropdown">
+    <button class="lang-current" onclick="toggleLangMenu(event)">
+      {{if eq .CurrentLang "en"}}🇬🇧 EN{{end}}
+      {{if eq .CurrentLang "fr"}}🇫🇷 FR{{end}}
+      {{if eq .CurrentLang "de"}}🇩🇪 DE{{end}}
+      {{if eq .CurrentLang "pt"}}🇧🇷 PT{{end}}
+      {{if eq .CurrentLang "it"}}🇮🇹 IT{{end}}
+      <span class="lang-chevron">▾</span>
+    </button>
+    <div class="lang-menu" id="langMenu">
+      <a href="#" onclick="switchLang('en')" class="lang-option{{if eq .CurrentLang "en"}} active{{end}}">🇬🇧 EN</a>
+      <a href="#" onclick="switchLang('fr')" class="lang-option{{if eq .CurrentLang "fr"}} active{{end}}">🇫🇷 FR</a>
+      <a href="#" onclick="switchLang('de')" class="lang-option{{if eq .CurrentLang "de"}} active{{end}}">🇩🇪 DE</a>
+      <a href="#" onclick="switchLang('pt')" class="lang-option{{if eq .CurrentLang "pt"}} active{{end}}">🇧🇷 PT</a>
+      <a href="#" onclick="switchLang('it')" class="lang-option{{if eq .CurrentLang "it"}} active{{end}}">🇮🇹 IT</a>
+    </div>
+  </div>
 </div>
+<script>
+function switchLang(lang) {
+  var url = new URL(window.location.href);
+  url.searchParams.set('lang', lang);
+  window.location.href = url.toString();
+}
+function toggleLangMenu(e) {
+  e.stopPropagation();
+  document.getElementById('langMenu').classList.toggle('open');
+}
+document.addEventListener('click', function() {
+  var m = document.getElementById('langMenu');
+  if (m) m.classList.remove('open');
+});
+</script>
 {{end}}
