@@ -9,6 +9,7 @@ import (
 	"io"
 	"log"
 	mathrand "math/rand"
+	"net"
 	"net/http"
 	"os"
 	"strings"
@@ -104,10 +105,10 @@ func main() {
 	mux := http.DefaultServeMux
 
 	// forceHTTPS redirects HTTP -> HTTPS for non-local requests using a 301.
-	// We intentionally allow localhost/127.0.0.1 to remain on HTTP for local dev.
+	// We intentionally allow localhost and private/local IP ranges to remain on HTTP for local dev.
 	forceHTTPS := func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if !isHTTPS(r) && !strings.HasPrefix(r.Host, "localhost") && !strings.HasPrefix(r.Host, "127.0.0.1") {
+			if !isHTTPS(r) && !isLocalHost(r.Host) {
 				// Redirect to the canonical page directly to avoid an intermediate root redirect.
 				destination := "https://" + r.Host + r.URL.RequestURI()
 				if r.URL.Path == "/" {
@@ -117,7 +118,7 @@ func main() {
 				return
 			}
 			// Add HSTS header for secure responses to enforce HTTPS
-			if isHTTPS(r) && !strings.HasPrefix(r.Host, "localhost") && !strings.HasPrefix(r.Host, "127.0.0.1") {
+			if isHTTPS(r) && !isLocalHost(r.Host) {
 				w.Header().Set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
 			}
 			next.ServeHTTP(w, r)
@@ -127,6 +128,34 @@ func main() {
 	handler := forceHTTPS(mux)
 
 	log.Fatal(http.ListenAndServe(":"+port, handler))
+}
+
+// isLocalHost returns true for localhost, loopback and common private IP ranges.
+func isLocalHost(hostport string) bool {
+	host := hostport
+	if h, _, err := net.SplitHostPort(hostport); err == nil {
+		host = h
+	}
+	host = strings.ToLower(host)
+	if host == "localhost" {
+		return true
+	}
+	ip := net.ParseIP(host)
+	if ip == nil {
+		return false
+	}
+	if ip.IsLoopback() {
+		return true
+	}
+	// Check common private and local ranges using CIDRs
+	cidrs := []string{"10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "fc00::/7", "fe80::/10"}
+	for _, c := range cidrs {
+		_, netw, _ := net.ParseCIDR(c)
+		if netw != nil && netw.Contains(ip) {
+			return true
+		}
+	}
+	return false
 }
 
 func isHTTPS(r *http.Request) bool {
