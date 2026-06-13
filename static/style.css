@@ -450,25 +450,6 @@ footer.github-footer a:hover {
   padding: 10px 20px;
 }
 
-.draw-button {
-  display: inline-block;
-  background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
-  color: white;
-  padding: 12px 26px;
-  text-decoration: none;
-  border-radius: 12px;
-  font-weight: 700;
-  font-family: 'Lato', sans-serif;
-  letter-spacing: 0.02em;
-  transition: filter 0.2s, transform 0.15s, box-shadow 0.2s;
-  box-shadow: 0 4px 16px rgba(139, 0, 0, 0.45);
-}
-
-.draw-button:hover {
-  filter: brightness(1.12);
-  transform: scale(1.03);
-  box-shadow: 0 7px 22px rgba(139, 0, 0, 0.55);
-}
 
 /* ── Participants list ─────────────────────────────────── */
 ul {
@@ -499,26 +480,6 @@ ul li:last-child {
   margin: 0 0 4px;
 }
 
-/* ── Button group ──────────────────────────────────────── */
-.button-group {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.button-group button,
-.button-group form {
-  flex: 1;
-}
-
-.button-group button {
-  margin: 0;
-}
-
-.button-group form button {
-  width: 100%;
-  margin: 0;
-}
 
 /* ── Snowflakes ────────────────────────────────────────── */
 .snowflakes {

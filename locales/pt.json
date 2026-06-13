@@ -17,25 +17,17 @@
   "submit_button": "Enviar",
   "participant_ready": "Seu presente é para",
   "participant_wait": "Você está dentro! Aguarde o organizador avisar quando o sorteio for feito, depois volte aqui.",
-  "participant_wait_button": "Atualizar",
   "reveal_button": "Revelar meu sorteio",
   "organizer_notify": "O sorteio foi feito! Avise seus participantes para que possam descobrir para quem vão presentear.",
   "manage_draw": "Gerenciar Sorteio",
   "participants": "Participantes",
   "start_draw": "Iniciar Sorteio",
   "waiting_draw": "Aguardando participantes...",
-  "waiting_draw_button": "🔄 Atualizar para ver novos participantes",
   "all_participants_ready": "Todos participaram",
-  "draw_completed": "🎉 Sorteio Concluído!",
-  "draw_completed_message": "Os participantes agora podem ver para quem devem dar o presente.",
   "share_link": "Compartilhe este link com os participantes",
   "copy_link": "Copiar Link",
   "organizer_name": "Seu nome",
   "organizer_wish": "Você quer transmitir algum desejo ou mensagem para seu Secret Santa? (opcional)",
-  "see_my_draw": "🎁 Ver Meu Sorteio",
-  "open_source": "Código Aberto",
   "view_on_github": "Ver no GitHub",
-  "send_feedback": "💬 Enviar feedback / Relatar um bug",
-  "refresh": "Atualizar"
+  "send_feedback": "💬 Enviar feedback / Relatar um bug"
 }
-
