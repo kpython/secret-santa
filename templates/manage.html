@@ -42,13 +42,19 @@
     {{if and .DrawDone .OrganizerGiftFor}}
     <div class="draw-result">
       <h1>Hello, {{.OrganizerName}}</h1>
-      <div class="section-label">{{index .T "participant_ready"}}</div>
-      <p style="font-size: 1.15em; font-weight: 600; color: #1a0a04; margin: 0 0 16px;">{{.OrganizerGiftFor}}</p>
-      {{if .OrganizerRecipientWish}}
-      <div class="section-label">{{index .T "wish_title"}}</div>
-      <p style="color: #555; margin: 0;">{{.OrganizerRecipientWish}}</p>
-      {{end}}
+      <div id="organizer-reveal-wrap" class="status-card">
+        <button onclick="revealDraw()" style="width: 100%;">{{index .T "reveal_button"}}</button>
+      </div>
+      <div id="organizer-draw-result" style="display: none;">
+        <div class="section-label">{{index .T "participant_ready"}}</div>
+        <p style="font-size: 1.15em; font-weight: 600; color: #1a0a04; margin: 0 0 16px;">{{.OrganizerGiftFor}}</p>
+        {{if .OrganizerRecipientWish}}
+        <div class="section-label">{{index .T "wish_title"}}</div>
+        <p style="color: #555; margin: 0;">{{.OrganizerRecipientWish}}</p>
+        {{end}}
+      </div>
     </div>
+    <div class="organizer-notify">{{index .T "organizer_notify"}}</div>
     {{end}}
 
     <!-- Share link -->
@@ -88,7 +94,6 @@
       </form>
       {{else}}
       <p class="status-waiting">{{index .T "waiting_draw"}}</p>
-      <button onclick="refreshPage(event)" style="margin-top: 15px; width: 100%;">{{index .T "waiting_draw_button"}}</button>
       {{end}}
     </div>
     {{end}}
@@ -129,15 +134,17 @@ function copyLink() {
   }
 }
 
-function refreshPage(event) {
-  const button = event.target;
-
-  if (navigator.vibrate) navigator.vibrate(50);
-
-  button.style.transform = 'scale(0.95)';
-  setTimeout(() => { button.style.transform = 'scale(1)'; }, 200);
-  setTimeout(() => { location.reload(); }, 300);
+function revealDraw() {
+  document.getElementById('organizer-reveal-wrap').style.display = 'none';
+  const result = document.getElementById('organizer-draw-result');
+  result.style.display = 'block';
+  result.style.animation = 'fadeSlideIn 0.4s ease both';
 }
+
+
+{{if not .DrawDone}}
+setTimeout(() => { location.reload(); }, 15000);
+{{end}}
 </script>
 
 </body>

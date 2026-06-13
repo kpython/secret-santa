@@ -32,38 +32,37 @@
   <div class="card">
     <h1>Hello, {{.Name}}</h1>
     {{if .Ready}}
-    <div class="section-label">{{index .T "participant_ready"}}</div>
-    <p style="font-size: 1.15em; font-weight: 600; color: #1a0a04; margin: 0 0 16px;">{{.GiftFor}}</p>
-    {{if .Wish}}
-    <div class="section-label">{{index .T "wish_title"}}</div>
-    <p style="color: #555; margin: 0;">{{.Wish}}</p>
-    {{end}}
+    <div id="reveal-wrap" class="status-card">
+      <button onclick="revealDraw()" style="width: 100%;">{{index .T "reveal_button"}}</button>
+    </div>
+    <div id="draw-result" style="display: none;">
+      <div class="section-label">{{index .T "participant_ready"}}</div>
+      <p style="font-size: 1.15em; font-weight: 600; color: #1a0a04; margin: 0 0 16px;">{{.GiftFor}}</p>
+      {{if .Wish}}
+      <div class="section-label">{{index .T "wish_title"}}</div>
+      <p style="color: #555; margin: 0;">{{.Wish}}</p>
+      {{end}}
+    </div>
     {{else}}
     <div class="status-card">
       <p>{{index .T "participant_wait"}}</p>
-      <button onclick="refreshPage(event)" style="width: 100%;">{{index .T "participant_wait_button"}}</button>
     </div>
     {{end}}
   </div>
 </div>
 
 <script>
-function refreshPage(event) {
-  const button = event.target;
-  
-  // Haptic feedback (vibration)
-  if (navigator.vibrate) {
-    navigator.vibrate(50);
-  }
-  
-  button.style.transform = 'scale(0.95)';
-  setTimeout(() => { button.style.transform = 'scale(1)'; }, 200);
-  
-  // Reload after animation
-  setTimeout(() => {
-    location.reload();
-  }, 300);
+function revealDraw() {
+  document.getElementById('reveal-wrap').style.display = 'none';
+  const result = document.getElementById('draw-result');
+  result.style.display = 'block';
+  result.style.animation = 'fadeSlideIn 0.4s ease both';
 }
+
+
+{{if not .Ready}}
+setTimeout(() => { location.reload(); }, 15000);
+{{end}}
 </script>
 
 <footer class="github-footer">

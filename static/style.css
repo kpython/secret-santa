@@ -213,15 +213,14 @@ body::after {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.38);
   margin-bottom: 24px;
   color: #2c1810;
-  animation: fadeSlideIn 0.55s ease both;
 }
 
 .container > .card:nth-child(3) { animation-delay: 0.1s; }
 .container > .card:nth-child(4) { animation-delay: 0.2s; }
 
 @keyframes fadeSlideIn {
-  from { opacity: 0; transform: translateY(22px); }
-  to   { opacity: 1; transform: translateY(0);    }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .card h1 {
@@ -405,6 +404,15 @@ footer.github-footer a:hover {
 /* ── Draw result (manage page) ─────────────────────────── */
 .draw-result {
   margin: 0;
+}
+
+/* ── Organizer notify ──────────────────────────────────── */
+.organizer-notify {
+  padding: 16px 0;
+  border-top: 1px solid #ede8e2;
+  font-size: 0.88em;
+  color: #888;
+  margin: 4px 0;
 }
 
 /* ── Share section (manage page) ───────────────────────── */
