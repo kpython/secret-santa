@@ -50,8 +50,9 @@
         <p style="font-size: 1.15em; font-weight: 600; color: #1a0a04; margin: 0 0 16px;">{{.OrganizerGiftFor}}</p>
         {{if .OrganizerRecipientWish}}
         <div class="section-label">{{index .T "wish_title"}}</div>
-        <p style="color: #555; margin: 0;">{{.OrganizerRecipientWish}}</p>
+        <p style="color: #555; margin: 0 0 16px;">{{.OrganizerRecipientWish}}</p>
         {{end}}
+        <p class="result-reminder">{{index .T "result_reminder"}}</p>
       </div>
     </div>
     <div class="organizer-notify">{{index .T "organizer_notify"}}</div>
@@ -63,13 +64,13 @@
       <p><strong>{{index .T "share_link"}}:</strong></p>
       <div class="share-link-box">
         <input type="text" id="joinLink" value="{{.JoinLink}}" readonly>
-        <button id="copyBtn" onclick="copyLink()" style="min-width: 130px; white-space: nowrap; height: 46px; line-height: 1; margin: 0;">{{index .T "copy_link"}}</button>
+        <button id="copyBtn" onclick="copyLink()" data-copied="{{index .T "copied"}}" style="min-width: 130px; white-space: nowrap; height: 46px; line-height: 1; margin: 0;">{{index .T "copy_link"}}</button>
       </div>
     </div>
     {{end}}
 
     <!-- Participants -->
-    <div class="section-label">{{index .T "participants"}}</div>
+    <div class="section-label">{{index .T "participants"}}{{if not .DrawDone}} <span class="participants-count">{{len .Participants}}/{{.ExpectedCount}}</span>{{end}}</div>
     <div class="participants-grid">
       {{range $token, $p := .Participants}}
       <span class="participant-tag">{{$p.Name}}</span>
@@ -93,7 +94,7 @@
         <button type="submit" style="width: 100%;">{{index .T "start_draw"}}</button>
       </form>
       {{else}}
-      <p class="status-waiting">{{index .T "waiting_draw"}}</p>
+      <p class="status-waiting">{{index .T "waiting_draw"}}<span class="dots-anim"><span>.</span><span>.</span><span>.</span></span></p>
       {{end}}
     </div>
     {{end}}
@@ -120,7 +121,7 @@ function copyLink() {
   const confirm = () => {
     if (navigator.vibrate) navigator.vibrate(50);
     button.style.transform = 'scale(0.95)';
-    button.textContent = 'Copied! ✅';
+    button.textContent = button.dataset.copied;
     setTimeout(() => { button.style.transform = 'scale(1)'; }, 200);
     setTimeout(() => { button.textContent = originalText; }, 2000);
   };

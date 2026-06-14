@@ -40,8 +40,9 @@
       <p style="font-size: 1.15em; font-weight: 600; color: #1a0a04; margin: 0 0 16px;">{{.GiftFor}}</p>
       {{if .Wish}}
       <div class="section-label">{{index .T "wish_title"}}</div>
-      <p style="color: #555; margin: 0;">{{.Wish}}</p>
+      <p style="color: #555; margin: 0 0 16px;">{{.Wish}}</p>
       {{end}}
+      <p class="result-reminder">{{index .T "result_reminder"}}</p>
     </div>
     {{else}}
     <div class="status-card">

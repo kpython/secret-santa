@@ -581,6 +581,10 @@ func drawHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		canDraw := allSubmitted && !draw.DrawDone && expectedReached
 		canonical := fmt.Sprintf("https://%s%s", r.Host, r.URL.Path)
+		expectedCount := 0
+		if draw.ExpectedParticipants != nil {
+			expectedCount = *draw.ExpectedParticipants
+		}
 		templates.ExecuteTemplate(w, "manage.html", struct {
 			EventID                string
 			EventName              string
@@ -591,12 +595,13 @@ func drawHandler(w http.ResponseWriter, r *http.Request) {
 			OrganizerGiftFor       string
 			OrganizerRecipientWish string
 			Participants           map[string]*Participant
+			ExpectedCount          int
 			CanDraw                bool
 			DrawDone               bool
 			T                      Translations
 			CurrentLang            string
 			Canonical              string
-		}{id, draw.Name, joinLink, organizerLink, organizerToken, organizerName, organizerGiftFor, organizerRecipientWish, draw.Participants, canDraw, draw.DrawDone, t, lang, canonical})
+		}{id, draw.Name, joinLink, organizerLink, organizerToken, organizerName, organizerGiftFor, organizerRecipientWish, draw.Participants, expectedCount, canDraw, draw.DrawDone, t, lang, canonical})
 
 	case "draw":
 		if r.Method != http.MethodPost {

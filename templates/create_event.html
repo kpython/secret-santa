@@ -88,13 +88,14 @@
     <h2>{{index .T "title_create_draw"}}</h2>
     <form method="POST" action="/draw/create" class="event-form">
       <label>{{index .T "draw_name"}}:
-        <input type="text" name="eventname" placeholder="Christmas Secret Santa 2025" required>
+        <input type="text" name="eventname" placeholder="{{index .T "placeholder_draw_name"}}" required>
       </label>
       <label>{{index .T "organizer_name"}}:
-        <input type="text" name="organizername" placeholder="John Doe" required>
+        <input type="text" name="organizername" placeholder="{{index .T "placeholder_organizer_name"}}" required>
       </label>
       <label>{{index .T "organizer_wish"}}:
-        <input type="text" name="organizerwish" placeholder="Books, video games, chocolate...">
+        <textarea name="organizerwish" rows="4" maxlength="500" placeholder="{{index .T "placeholder_wish"}}" oninput="updateCount(this)"></textarea>
+        <span class="char-count">500</span>
       </label>
       <label>{{index .T "expected_participants"}}:
         <input type="number" name="expected" min="3" max="50" placeholder="10" required>
@@ -120,5 +121,13 @@
     </a>
   </p>
 </footer>
+<script>
+function updateCount(el) {
+  const remaining = 500 - el.value.length;
+  const counter = el.nextElementSibling;
+  counter.textContent = remaining;
+  counter.style.color = remaining < 50 ? '#c41e3a' : '#aaa';
+}
+</script>
 </body>
 </html>
