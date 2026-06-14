@@ -3,13 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{index .T "title_create_draw"}}</title>
+<title>{{index .T "page_title"}}</title>
+<meta name="description" content="{{index .T "meta_description"}}">
+<meta property="og:title" content="{{index .T "page_title"}}">
+<meta property="og:description" content="{{index .T "meta_description"}}">
+<meta property="og:type" content="website">
+{{if .Canonical}}<meta property="og:url" content="{{.Canonical}}">{{end}}
+<meta property="og:image" content="https://secret-santa-draw.app/static/santa.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{index .T "page_title"}}">
+<meta name="twitter:description" content="{{index .T "meta_description"}}">
 {{if .Canonical}}<link rel="canonical" href="{{.Canonical}}">{{end}}
+<link rel="alternate" hreflang="en" href="{{.Canonical}}?lang=en">
+<link rel="alternate" hreflang="fr" href="{{.Canonical}}?lang=fr">
+<link rel="alternate" hreflang="de" href="{{.Canonical}}?lang=de">
+<link rel="alternate" hreflang="pt" href="{{.Canonical}}?lang=pt">
+<link rel="alternate" hreflang="it" href="{{.Canonical}}?lang=it">
+<link rel="alternate" hreflang="x-default" href="{{.Canonical}}">
 <link rel="icon" href="/static/santa-hat.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="/static/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Secret Santa Draw",
+  "url": "https://secret-santa-draw.app",
+  "description": "{{index .T "meta_description"}}",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "inLanguage": ["en", "fr", "de", "pt", "it"],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
 </head>
 <body>
 <div class="snowflakes" aria-hidden="true">
