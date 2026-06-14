@@ -19,6 +19,8 @@
   "name_label": "Name",
   "wish_label": "Your message to your Secret Santa",
   "wish_title": "Wish",
+  "wish_from": "Message from",
+  "no_wish": "No message left.",
   "submit_button": "Submit",
   "participant_ready": "Your gift is for",
   "participant_wait": "You're in! Keep this page open and come back later when the organizer lets you know.",

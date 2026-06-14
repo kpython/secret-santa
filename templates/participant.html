@@ -8,10 +8,18 @@
 <link rel="icon" href="/static/santa-hat.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@600;700&family=Lato:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+<svg style="position:absolute;width:0;height:0" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="paper-crumple">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04 0.07" numOctaves="3" seed="5" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
 <div class="snowflakes" aria-hidden="true">
   <div class="snowflake">❄</div>
   <div class="snowflake">❅</div>
@@ -38,9 +46,11 @@
     <div id="draw-result" style="display: none;">
       <div class="section-label">{{index .T "participant_ready"}}</div>
       <p style="font-size: 1.15em; font-weight: 600; color: #1a0a04; margin: 0 0 16px;">{{.GiftFor}}</p>
+      <div class="section-label">{{index .T "wish_from"}} {{.GiftFor}}</div>
       {{if .Wish}}
-      <div class="section-label">{{index .T "wish_title"}}</div>
-      <p style="color: #555; margin: 0 0 16px;">{{.Wish}}</p>
+      <p class="paper-note">{{.Wish}}</p>
+      {{else}}
+      <p class="no-wish">{{index .T "no_wish"}}</p>
       {{end}}
       <p class="result-reminder">{{index .T "result_reminder"}}</p>
     </div>

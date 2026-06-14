@@ -451,6 +451,54 @@ footer.github-footer a:hover {
   margin: 0;
 }
 
+/* ── Paper note (wish display) ─────────────────────────── */
+.paper-note {
+  background: transparent;
+  padding: 18px 36px 18px 22px;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.2em;
+  color: #3d2b1f;
+  line-height: 1.7;
+  margin: 10px 0 20px;
+  position: relative;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.13), 0 6px 20px rgba(0,0,0,0.07);
+}
+
+.paper-note::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse at 25% 20%, rgba(210,190,80,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 75%, rgba(190,170,60,0.1) 0%, transparent 45%),
+    linear-gradient(94deg, transparent 55%, rgba(170,150,50,0.07) 55.5%, transparent 56%),
+    linear-gradient(177deg, transparent 38%, rgba(170,150,50,0.06) 38.5%, transparent 39%),
+    #fffde8;
+  border-radius: 2px 5px 3px 4px / 4px 2px 5px 3px;
+  filter: url(#paper-crumple);
+}
+
+.paper-note::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 18px 18px;
+  border-color: transparent transparent #d4bc50 transparent;
+}
+
+/* ── No wish ───────────────────────────────────────────── */
+.no-wish {
+  font-size: 0.9em;
+  color: #bbb;
+  font-style: italic;
+  margin: 6px 0 16px;
+}
+
 /* ── Result reminder ───────────────────────────────────── */
 .result-reminder {
   font-size: 0.8em;
